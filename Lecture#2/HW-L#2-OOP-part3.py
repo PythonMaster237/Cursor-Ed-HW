@@ -1,25 +1,31 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
-class Laptop:
+class Laptop(ABC):
 
+    @abstractmethod
     def screen(self):
-        return None
+        pass
 
+    @abstractmethod
     def keyboard(self):
-        return None
+        pass
 
+    @abstractmethod
     def touchpad(self):
-        return None
+        pass
 
+    @abstractmethod
     def webcam(self):
-        return None
+        pass
 
+    @abstractmethod
     def ports(self):
-        return None
+        pass
 
+    @abstractmethod
     def dynamics(self):
-        return None
+        pass
 
 
 class HPLaptop(Laptop):
