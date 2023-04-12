@@ -24,9 +24,11 @@ DROP TABLE IF EXISTS `countries`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `countries` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `country_name` char(255) DEFAULT NULL,
+  `country_name` char(255) NOT NULL,
   `region_id` int NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `region_id` (`region_id`),
+  CONSTRAINT `countries_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,7 +53,11 @@ CREATE TABLE `departments` (
   `department_name` char(255) DEFAULT NULL,
   `manager_id` int DEFAULT NULL,
   `location_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `location_id` (`location_id`),
+  KEY `manager_id` (`manager_id`),
+  CONSTRAINT `departments_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`),
+  CONSTRAINT `departments_ibfk_2` FOREIGN KEY (`manager_id`) REFERENCES `employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -83,7 +89,11 @@ CREATE TABLE `employees` (
   `commission_pct` double DEFAULT NULL,
   `manager_id` int DEFAULT NULL,
   `department_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `department_id` (`department_id`),
+  KEY `job_id` (`job_id`),
+  CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`),
+  CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,7 +120,10 @@ CREATE TABLE `job_history` (
   `end_job` date DEFAULT NULL,
   `job_id` int NOT NULL,
   `department_id` int NOT NULL,
-  UNIQUE KEY `employee_id` (`employee_id`)
+  UNIQUE KEY `employee_id` (`employee_id`),
+  KEY `job_id` (`job_id`),
+  CONSTRAINT `job_history_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`),
+  CONSTRAINT `job_history_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employyes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,7 +175,9 @@ CREATE TABLE `locations` (
   `city` char(255) DEFAULT NULL,
   `state_province` char(255) DEFAULT NULL,
   `country_id` int NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `country_id` (`country_id`),
+  CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -207,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-31  1:37:02
+-- Dump completed on 2023-04-12 19:19:57
