@@ -23,9 +23,10 @@ DROP TABLE IF EXISTS `countries`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `countries` (
-  `code` int NOT NULL,
+  `code` int DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
-  `continent_name` varchar(100) DEFAULT NULL
+  `continent_name` varchar(100) DEFAULT NULL,
+  UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,7 +52,11 @@ CREATE TABLE `merchants` (
   `admin_id` int DEFAULT NULL,
   `country_code` int DEFAULT NULL,
   `created_at` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `admin_id` (`admin_id`),
+  KEY `country_code` (`country_code`),
+  CONSTRAINT `merchants_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `merchants_ibfk_2` FOREIGN KEY (`country_code`) REFERENCES `countries` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -74,7 +79,11 @@ DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE `order_items` (
   `order_id` int DEFAULT NULL,
   `product_id` int DEFAULT NULL,
-  `quantity` int DEFAULT NULL
+  `quantity` int DEFAULT NULL,
+  KEY `order_id` (`order_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -99,7 +108,9 @@ CREATE TABLE `orders` (
   `user_id` int DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL,
   `created_at` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -126,7 +137,9 @@ CREATE TABLE `products` (
   `price` int NOT NULL,
   `status` varchar(100) DEFAULT NULL,
   `created_at` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `merchant_id` (`merchant_id`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchants` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -154,7 +167,9 @@ CREATE TABLE `users` (
   `date_of_birtth` varchar(100) DEFAULT NULL,
   `country_code` int DEFAULT NULL,
   `created_at` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `country_code` (`country_code`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`country_code`) REFERENCES `countries` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -177,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-27  2:04:37
+-- Dump completed on 2023-04-12 17:49:15
