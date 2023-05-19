@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Delete Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .post {
+            position: relative;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .post p {
+            margin-bottom: 0;
+        }
+
+        .post-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-buttons button {
+            margin-bottom: 5px;
+        }
+
+        .edit-button {
+            background-color: yellow;
+        }
+
+        .delete-button {
+            background-color: red;
+        }
+    </style>
+<body>
+    <h1>Delete Post?</h1>
+    <form action="/posts/{{post.id}}/delete" method="POST">
+        <div class="post">
+                <h2 style="font-family:verdana;">Topic: {{ post.title }}</h2>
+                <font size="2">Writer: {{ post.author.first_name }} {{post.author.last_name}}</font><br>
+                <font size="2" style="color: #2980b9">Edited: {{ post.edited }}</font>
+                <h4>{{ post.content }}</h4>
+             </div>
+        <input type="submit" value="Yes">
+    </form>
+</body>
+{% endblock %}

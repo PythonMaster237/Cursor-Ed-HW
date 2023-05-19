@@ -1,0 +1,26 @@
+1. SELECT * FROM employees;
+
+2. SELECT * FROM employees WHERE first_name="David";
+
+3. SELECT * FROM employees WHERE department_id IN (20, 30);
+
+4. SELECT * FROM employees WHERE department_id IN (20, 30) AND commission_pct IS NOT NULL;
+
+5. SELECT * FROM employees WHERE hire_date LIKE "%01";
+
+6. SELECT * FROM employees WHERE hire_date LIKE "2008%";
+
+7. SELECT CONCAT('Tomorrow is ', DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%D day of %M')) AS tomorrow_date FROM DUAL;
+
+8. SELECT first_name, last_name, DATE_FORMAT(hire_date, '%D of %M, %Y') AS hire_date FROM employees;
+
+9. SELECT first_name, last_name, CONCAT(salary, "$") AS salary, CONCAT(commission_pct, "$") AS commission_pct, CONCAT(salary+commission_pct, "$") AS total_salary FROM employees WHERE CONCAT(commission_pct/salary) > 0.2;
+
+10. SELECT first_name, last_name, CONCAT(salary, "$") AS salary, CONCAT(commission_pct, "$") AS commission_pct, CONCAT(salary+commission_pct, "$") AS total_salary FROM employees WHERE CONCAT(commission_pct/salary) > 0.2;
+
+10. SELECT CONCAT(NOW()) AS now_time, CONCAT(NOW() + INTERVAL 1 YEAR + INTERVAL 1 MONTH + INTERVAL 1 DAY + INTERVAL 1 HOUR + INTERVAL 1 MINUTE + INTERVAL 1 SECOND) AS time_after FROM DUAL;
+
+11. SELECT id, first_name, last_name, CONCAT(salary, "$") AS salary, CONCAT(commission_pct, "$") AS commission_pct, CONCAT("$", FORMAT(IFNULL(commission_pct, 0)+salary, 2)) AS all_salary FROM employees;
+
+12. ELECT id, first_name, last_name, CONCAT(salary, "$") AS salary, CASE WHEN commission_pct IS NULL THEN "No" WHEN commission_pct IS NOT NULL THEN
+"Yes" END AS commission_pct FROM employees;
