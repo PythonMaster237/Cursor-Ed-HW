@@ -37,3 +37,4 @@ win32-setctime==1.1.0
 wincertstore==0.2
 cryptography
 gunicorn
+flask-restful-swagger

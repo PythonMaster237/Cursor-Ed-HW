@@ -17,5 +17,49 @@ with app.app_context():
 
     migrate = Migrate(app, db)
 
+
+from flask import Flask
+from flask_restful import Api
+from flask_restful_swagger import swagger
+from flask_restful import Resource
+
+
+api = Api(app)
+
+@app.route("/api/spec")
+def spec():
+    return swagger(app)
+
+
+class MyResource(Resource):
+    @swagger.operation(
+        notes='Get a list of items',
+        parameters=[
+            {
+                "name": "page",
+                "description": "Page number",
+                "required": False,
+                "type": "int",
+                "paramType": "query"
+            }
+        ],
+        responseMessages=[
+            {
+                "code": 200,
+                "message": "Success"
+            },
+            {
+                "code": 400,
+                "message": "Invalid input"
+            }
+        ]
+    )
+    def get(self):
+        # Code to get items
+        return {'items': items}
+
+api.add_resource(MyResource, '/items')
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050, debug=True)
