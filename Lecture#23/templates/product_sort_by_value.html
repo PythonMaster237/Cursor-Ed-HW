@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style>
+        .container-extra {
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 2cm;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-extra">
+    <label for="product">Sort:</label>
+    <select id="product" name="products" onchange="location = this.value;">
+        <option value="">----</option>
+        <option value="price">Price(low-high)</option>
+        <option value="-price">Price(high-low)</option>
+        <option value="-create_at">Newest</option>
+        <option value="create_at">Older</option>
+    </select>
+</div>
+</body>
+<div class="container">
+    <h1 class="text-center">{{ category.title }}</h1>
+    <div class="products-list">
+        {% for product in order_by_value %}
+        {% include "elements/card.html" %}
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
