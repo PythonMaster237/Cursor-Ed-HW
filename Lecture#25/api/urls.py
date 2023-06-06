@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .viewsets import *
-from .views import ProductView, ProductSingleView, CategoryProductsView
+from .views import ProductView, ProductSingleView, CategoryProductsView, CartView
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -14,4 +14,5 @@ urlpatterns = [
     path("v2/products/", ProductView.as_view()),
     path("v2/products/<int:id>", ProductSingleView.as_view()),
     path("v1/categories/<int:category_id>/products", CategoryProductsView.as_view()),
+    path("v2/cart", CartView.as_view()),
 ]

@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import ProductSerializer
+from rest_framework.permissions import IsAuthenticated
+from .serializers import ProductSerializer, CartSerializer
 from products.models import Product, Category
 
 
@@ -48,7 +49,6 @@ class ProductSingleView(APIView):
         return Response(None, status.HTTP_400_BAD_REQUEST)
 
 
-
 class CategoryProductsView(APIView):
     def get_object(self, id):
         try:
@@ -64,3 +64,42 @@ class CategoryProductsView(APIView):
                 products = ProductSerializer(category.products, many=True)
                 return Response(products.data)
         return Response(None, status.HTTP_404_NOT_FOUND)
+
+
+class CartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        cart = request.session.get('cart', {})
+        return Response(cart, status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = CartSerializer(data=request.data)
+        if serializer.is_valid():
+            product_id = serializer.validated_data['id']
+            product_obj = Product.objects.get(id=product_id)
+            is_product_already_exist = False
+
+            cart = request.session.get("cart", [])
+
+            for item in cart:
+                if product_id == item['id']:
+                    item['quantity'] += serializer.validated_data['quantity']
+                    item['price'] = product_obj.price * item['quantity']
+                    is_product_already_exist = True
+                    break
+
+            if not is_product_already_exist:
+                serialized_data = serializer.data
+                serialized_data["price"] = product_obj.price * serialized_data["quantity"]
+                cart.append(serialized_data)
+
+            request.session["cart"] = cart
+
+            return Response(cart, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+
+    def delete(self, request):
+        request.session["cart"] = []
+        return Response(request.session['cart'], status=200)
