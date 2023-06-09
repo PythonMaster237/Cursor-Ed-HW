@@ -119,6 +119,11 @@ REST_FRAMEWORK = {
     ]
 }
 
+TELEGRAM = {
+    'bot_token': os.environ.get("TELEGRAM_BOT_TOKEN"),
+    'channel_name': os.environ.get("TELEGRAM_BOT_NAME"),
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

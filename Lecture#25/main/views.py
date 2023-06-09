@@ -1,7 +1,9 @@
+import asyncio
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib import messages
+
+from main.telegram_bot import send_telegram_message
 from .models import Order, OrderItems
 from .forms import NewUserForm
 from products.models import Product
@@ -44,7 +46,6 @@ def checkout(request):
     total_price = 0
     for cart_item in request.session.get("cart", []):
         total_price = total_price + cart_item["price"]
-
     return render(request, "checkout.html", {"total_price": total_price})
 
 
@@ -64,6 +65,7 @@ def checkout_proceed(request):
             total = total + item["price"]
         order.total_price = total
         order.save()
+        message_bot = ""
         for item in request.session.get("cart", []):
             order_item = OrderItems()
             order_item.product_id = item["id"]
@@ -71,6 +73,14 @@ def checkout_proceed(request):
             order_item.price = item["price"]
             order_item.quantity = item["quantity"]
             order_item.save()
+            message_bot += f"Product: {order_item.product.title};\t" \
+                           f"Quantity: {order_item.quantity};\t" \
+                           f"Total: {order_item.price};\t \n\n"
+    message_bot += f"Total price: {total}\n" \
+                   f"Name: \t {order.first_name} {order.last_name}\n" \
+                   f"Address: {order.country} | {order.city} | {order.address}\n" \
+                   f"Order number: {order.id}"
+    asyncio.run(send_telegram_message(message_bot))
     return HttpResponseRedirect("/")
 
 
