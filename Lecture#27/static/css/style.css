@@ -1,0 +1,76 @@
+.products-list {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.products-list > .card {
+    margin-right: 15px;
+}
+
+.left-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.login-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+}
+
+.shopping-cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 18%;
+}
+
+.shopping-cart:hover {
+    cursor: pointer;
+}
+
+.shopping-cart .shopping-cart-number {
+    display: block;
+    width: 20px;
+    text-align: center;
+    background-color: red;
+    font-weight: bold;
+    border-radius: 31%;
+}
+
+
+.product-info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel {
+    width: 30%;
+}
+
+.carousel .image img {
+    height: 300px;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: black !important;
+}
+
+.single-comment {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.single-comment .comment-user {
+    font-weight: bold;
+    margin:0;
+    padding: 0;
+}
+
+.single-comment .childs-comments {
+    margin-left: 20px;
+}
