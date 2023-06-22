@@ -62,7 +62,14 @@
 
 .single-comment {
     margin-top: 15px;
+    align-items: center;
+    margin-top: 15px;
     text-align: left;
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f2ee;
+    border-radius: 15px;
 }
 
 .single-comment .comment-user {
@@ -73,4 +80,28 @@
 
 .single-comment .childs-comments {
     margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reaction-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.reaction-icon {
+  border-radius: 50%;
+}
+
+.comment-info {
+    flex: 1;
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
 }
